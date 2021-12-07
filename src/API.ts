@@ -9,7 +9,7 @@ export type Question = {
     type: string;
 }
 
-export type QuestionState = Question & { answers: string[] };
+export type QuestionsState = Question & { answers: string[] };
 
 export const fetchQuizQuestions = async (amount: number, difficulty: 'easy' | 'medium' | 'hard') => {
     const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty?${difficulty}&type=multiple`;
