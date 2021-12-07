@@ -26,13 +26,16 @@ export default function QuestionCard({
       <p dangerouslySetInnerHTML={{ __html: question }}></p>
       <div>
         {answers.map((answer) => (
-          <button
-            disabled={userAnswer ? true : false}
-            value={answer}
-            onClick={callback}
-          >
-            <span dangerouslySetInnerHTML={{ __html: answer }} />
-          </button>
+          <div 
+            key={answer}>
+            <button
+              disabled={userAnswer ? true : false}
+              value={answer}
+              onClick={callback}
+            >
+              <span dangerouslySetInnerHTML={{ __html: answer }} />
+            </button>
+          </div>
         ))}
       </div>
     </div>
