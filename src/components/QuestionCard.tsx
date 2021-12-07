@@ -19,19 +19,21 @@ export default function QuestionCard({
   totalQuestions,
 }: Props) {
   return (
-    <div>
+    <div className="question-card">
       <p className="number">
         Question: {questionNr} / {totalQuestions}
       </p>
       <p dangerouslySetInnerHTML={{ __html: question }}></p>
       <div>
         {answers.map((answer) => (
-          <div 
+          <div
+            className = "button-wrapper"
             key={answer}>
             <button
               disabled={userAnswer ? true : false}
               value={answer}
               onClick={callback}
+              id={userAnswer?.correctAnswer === answer ? "correct" : userAnswer?.correctAnswer === answer && userAnswer?.answer === answer ? "false" : ""}
             >
               <span dangerouslySetInnerHTML={{ __html: answer }} />
             </button>
