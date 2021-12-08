@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import { fetchQuizQuestions, QuestionsState } from "./API";
-// Components
 import QuestionCard from "./components/QuestionCard";
 
 export type AnswerObject = {
@@ -11,12 +10,13 @@ export type AnswerObject = {
   correctAnswer: string;
 };
 
+// number of questions per game
 const TOTAL_QUESTIONS = 10;
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
-  const [number, setNumber] = useState(0);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
@@ -28,7 +28,7 @@ function App() {
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
-    setNumber(0);
+    setQuestionNumber(0);
     setLoading(false);
   };
 
@@ -37,17 +37,17 @@ function App() {
       // get user answer
       const answer = e.currentTarget.value;
       // check if the answer is correct
-      const correct = questions[number].correct_answer === answer;
+      const correct = questions[questionNumber].correct_answer === answer;
       // add to the score if the answer is correct
       if (correct) {
         setScore((prev) => prev + 1);
       }
       // save the correct answer to the array of user answers
       const answerObject = {
-        question: questions[number].question,
+        question: questions[questionNumber].question,
         answer,
         correct,
-        correctAnswer: questions[number].correct_answer,
+        correctAnswer: questions[questionNumber].correct_answer,
       };
       setUserAnswers((prev) => [...prev, answerObject]);
     }
@@ -55,11 +55,11 @@ function App() {
 
   const nextQuestion = () => {
     // move on to the next question if not the last question
-    const nextQuestionNumber = number + 1;
+    const nextQuestionNumber = questionNumber + 1;
     if (nextQuestionNumber === TOTAL_QUESTIONS) {
       setGameOver(true);
     } else {
-      setNumber(nextQuestionNumber);
+      setQuestionNumber(nextQuestionNumber);
     }
   };
 
@@ -76,17 +76,22 @@ function App() {
       {loading && <p>Loading Questions ...</p>}
       {!loading && !gameOver && (
         <QuestionCard
-          questionNr={number + 1}
+          questionNr={questionNumber + 1}
           totalQuestions={TOTAL_QUESTIONS}
-          question={questions[number].question}
-          answers={questions[number].answers}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
+          question={questions[questionNumber].question}
+          answers={questions[questionNumber].answers}
+          userAnswer={userAnswers ? userAnswers[questionNumber] : undefined}
           callback={checkAnswer}
         />
       )}
-      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (<button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>) : null}
+      {!gameOver &&
+      !loading &&
+      userAnswers.length === questionNumber + 1 &&
+      questionNumber !== TOTAL_QUESTIONS - 1 ? (
+        <button className="next" onClick={nextQuestion}>
+          Next Question
+        </button>
+      ) : null}
     </div>
   );
 }

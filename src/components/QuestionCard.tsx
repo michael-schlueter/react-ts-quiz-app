@@ -23,19 +23,24 @@ export default function QuestionCard({
       <p className="number">
         Question: {questionNr} / {totalQuestions}
       </p>
-      <p dangerouslySetInnerHTML={{ __html: question }}></p>
+      <p>{question}</p>
       <div>
         {answers.map((answer) => (
-          <div
-            className = "button-wrapper"
-            key={answer}>
+          <div className="button-wrapper" key={answer}>
             <button
               disabled={userAnswer ? true : false}
               value={answer}
               onClick={callback}
-              id={userAnswer?.correctAnswer === answer ? "correct" : userAnswer?.correctAnswer === answer && userAnswer?.answer === answer ? "false" : ""}
+              id={
+                userAnswer?.correctAnswer === answer
+                  ? "correct"
+                  : !(userAnswer?.correctAnswer === answer) &&
+                    userAnswer?.answer === answer
+                  ? "false"
+                  : ""
+              }
             >
-              <span dangerouslySetInnerHTML={{ __html: answer }} />
+              <span>{answer}</span>
             </button>
           </div>
         ))}
