@@ -23,7 +23,7 @@ export default function QuestionCard({
       <p className="number">
         Question: {questionNr} / {totalQuestions}
       </p>
-      <p>{question}</p>
+      <p dangerouslySetInnerHTML={{ __html: question }} />
       <div>
         {answers.map((answer) => (
           <div className="button-wrapper" key={answer}>
@@ -40,7 +40,7 @@ export default function QuestionCard({
                   : ""
               }
             >
-              <span>{answer}</span>
+              <span dangerouslySetInnerHTML={{ __html: answer }} />
             </button>
           </div>
         ))}
