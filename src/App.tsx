@@ -73,6 +73,10 @@ function App() {
       ) : null}
 
       {!gameOver && <p className="score">Score: {score}</p>}
+      {userAnswers.length === questionNumber + 1 &&
+      questionNumber === TOTAL_QUESTIONS - 1 ? (
+        <p className="score">You have answered {score}/{TOTAL_QUESTIONS} questions correct. {score >= 7 ? 'That is great' : score >= 4 ? 'That is okay' : 'You can do better. Try again'}!</p>
+      ) : null}
       {loading && <p>Loading Questions ...</p>}
       {!loading && !gameOver && (
         <QuestionCard
